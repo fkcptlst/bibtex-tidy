@@ -16,3 +16,6 @@ test/.tmp*
 .tmp
 .DS_store
 Notes
+**/__pycache__
+%*
+TO_BE_PROCESSED

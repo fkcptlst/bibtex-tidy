@@ -1,0 +1,26 @@
+# FROM node:18 AS builder
+FROM nikolaik/python-nodejs:python3.11-nodejs18-bullseye AS builder
+
+WORKDIR /
+
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# where available (npm@5+)
+COPY package*.json ./
+COPY ./src ./src
+COPY ./docs ./docs
+COPY ./build.ts .
+COPY ./tsconfig.json .
+COPY ./README.md .
+COPY ./pyscripts ./pyscripts
+COPY ./scripts ./scripts
+
+RUN npm install
+
+# Bundle app source
+COPY . .
+# RUN mkdir bin
+
+RUN npm install -g bibtex-tidy
+
+CMD [ "bash" ]

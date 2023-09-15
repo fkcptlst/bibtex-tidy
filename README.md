@@ -264,3 +264,16 @@ The web application can be deployed locally using the provided Docker configurat
 3. Visit the web application at http://localhost:8080 and do your BibTeX work
 4. Stop the docker service, when you don't need it anymore: `cd docker && docker-compose down`
 
+## 增加了自动替换会议全程为缩写的功能
+
+python脚本位于`pyscripts`目录下，其中正则表达式配置位于`pyscripts/rules.py`中，可以根据需要自行修改。
+
+运行`scripts/auto_batch_process.sh`时，会：
+
+1. 使用`bibtex-tidy`去重复
+2. 使用`pyscripts/rename.py`替换会议全称为缩写
+
+> [!NOTE]
+> 为了方便使用，改写了一个新的dockerfile，位于`docker/Dockerfile.auto`。
+> 1. 构建一次：`docker build -t bibtex-tidy . -f docker/Dockerfile.auto`
+> 2. 之后每次使用：`docker run -it --rm -v $(pwd)/TO_BE_PROCESSED:/TO_BE_PROCESSED -v $(pwd)/pyscripts:/pyscripts bibtex-tidy bash scripts/auto_batch_process.sh TO_BE_PROCESSED`，其中将所有需要处理的`.bib`文件放在`TO_BE_PROCESSED`目录下。
